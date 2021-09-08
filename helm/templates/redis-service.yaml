@@ -6,7 +6,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-  name: redis
+  name: {{ .Values.redis.name }}
 spec:
   type:  {{ .Values.redis.serviceType }}
   ports:
@@ -14,4 +14,4 @@ spec:
     port: {{ .Values.redis.servicePort }}
     targetPort: {{ .Values.redis.containerPort }}
   selector:
-    app: redis
+    app: {{ .Values.redis.name }}

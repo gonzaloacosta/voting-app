@@ -6,4 +6,4 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: "{{ template "redis-fullname" . }}-cm" 
+  name: "{{ .Values.redis.name }}-cm" 

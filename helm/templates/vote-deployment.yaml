@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "vote-fullname" . }}
+  name: {{ .Values.vote.name }}
   labels:
     component: "{{ .Release.Name }}-{{ .Values.vote.name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -11,14 +11,14 @@ spec:
   replicas: {{ .Values.vote.replicas }}
   selector:
     matchLabels:
-      name: {{ template "vote-fullname" . }}
+      app: {{ .Values.vote.name }}
   template:
     metadata:
       labels:
-        name: {{ template "vote-fullname" . }}
+        app: {{ .Values.vote.name }}
     spec:
       containers:
-      - image: "{{ .Values.vote.imageName }}:{{ .Values.vote.imageTag }}"
+      - image: "{{ .Values.vote.image.name }}:{{ .Values.vote.image.tag }}"
         name: vote
         ports:
         - containerPort: {{ .Values.vote.containerPort }}

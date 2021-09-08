@@ -9,4 +9,4 @@ data:
 kind: ConfigMap
 metadata:
   creationTimestamp: null
-  name: "{{ template "db-fullname" . }}-cm"
+  name: "{{ .Values.postgres.name }}-cm"

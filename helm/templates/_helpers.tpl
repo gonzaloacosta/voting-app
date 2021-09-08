@@ -26,7 +26,7 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 {{- end -}}
 
 {{- define "db-fullname" -}}
-{{- $name := default .Chart.Name .Values.db.name -}}
+{{- $name := default .Chart.Name .Values.postgres.name -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 

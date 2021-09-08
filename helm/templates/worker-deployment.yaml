@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "worker-fullname" . }}
+  name: {{ .Values.worker.name }}
   labels:
     component: "{{ .Release.Name }}-{{ .Values.worker.name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.worker.replicas }}
   selector:
     matchLabels:
-      app: {{ template "worker-fullname" . }}
+      app: {{ .Values.worker.name }}
   template:
     metadata:
       labels:
-        app: {{ template "worker-fullname" . }}
+        app: {{ .Values.worker.name }}
     spec:
       containers:
-      - image: {{ .Values.worker.imageName }}:{{ .Values.worker.imageTag }}
+      - image: {{ .Values.worker.image.name }}:{{ .Values.worker.image.tag }}
         name: worker

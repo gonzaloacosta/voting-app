@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "db-fullname" . }} 
+  name: {{ .Values.postgres.name }} 
   labels:
-    component: "{{ .Release.Name }}-{{ .Values.db.name }}"
+    component: "{{ .Release.Name }}-{{ .Values.postgres.name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
 spec:
-  replicas: {{ .Values.db.replicas }}
+  replicas: {{ .Values.postgres.replicas }}
   selector:
     matchLabels:
-      app: {{ template "db-fullname" . }} 
+      app: {{ .Values.postgres.name }} 
   template:
     metadata:
       labels:
-        app: {{ template "db-fullname" . }} 
+        app: {{ .Values.postgres.name }} 
     spec:
       containers:
-      - image: "{{ .Values.db.imageName }}:{{ .Values.db.imageTag }}"
+      - image: "{{ .Values.postgres.image.name }}:{{ .Values.postgres.image.tag }}"
         name: database
         livenessProbe:
           exec: 
             command:
             - sh
             - -c
-            - {{ .Values.db.healthcheck.command }}
+            - {{ .Values.postgres.healthcheck.command }}
           initialDelaySeconds: 15
           periodSeconds: 20
         readinessProbe:
@@ -33,16 +33,16 @@ spec:
             command:
             - sh
             - -c
-            - {{ .Values.db.healthcheck.command }}
+            - {{ .Values.postgres.healthcheck.command }}
           initialDelaySeconds: 10
           periodSeconds: 15
         env:
         - name: POSTGRES_USER
-          value: {{ .Values.db.postgresUser }}
+          value: {{ .Values.postgres.dbUser }}
         - name: POSTGRES_PASSWORD
-          value: {{ .Values.db.postgresPassword }}
+          value: {{ .Values.postgres.dbPassword }}
         ports:
-        - containerPort: {{ .Values.db.containerPort }}
+        - containerPort: {{ .Values.postgres.containerPort }}
           name: postgres
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
@@ -52,11 +52,12 @@ spec:
       volumes:
         - name: db-cm
           configMap:
-            name: "{{ template "db-fullname" . }}-cm"
+            name: "{{ .Values.postgres.name }}-cm"
+            defaultMode: 0750
         - name: db-data
-  {{- if .Values.db.volumes.enabled }}
+  {{- if .Values.postgres.volumes.enabled }}
           persistentVolumeClaim:
-            claimName: "{{ template "db-fullname" . }}-pvc" 
+            claimName: "{{ .Values.postgres.name }}-pvc" 
   {{- else }}
           emptyDir: {} 
   {{- end }}

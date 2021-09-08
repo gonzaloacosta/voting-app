@@ -2,14 +2,14 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: {{ template "worker-fullname" . }}
+  name: {{ .Values.worker.name }}
   labels:
-    app: {{ template "worker-fullname" . }}
+    app: {{ .Values.worker.name }}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: {{ template "worker-fullname" . }}
+    name: {{ .Values.worker.name }}
   minReplicas: {{ .Values.worker.hpa.minReplicas }}
   maxReplicas: {{ .Values.worker.hpa.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.worker.hpa.targetCPUUtilizationPercentage }}

@@ -6,7 +6,7 @@ metadata:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     heritage: {{ .Release.Service | quote }}
     release: {{ .Release.Name | quote }}
-  name: vote
+  name: {{ .Values.vote.name }}
 spec:
   type: {{ .Values.vote.serviceType }}
   ports:
@@ -14,4 +14,4 @@ spec:
     port: {{ .Values.vote.servicePort }}
     targetPort: {{ .Values.vote.containerPort }}
   selector:
-    app: vote
+    app: {{ .Values.vote.name }}

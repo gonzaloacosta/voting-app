@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "redis-fullname" . }}
+  name: {{ .Values.redis.name }}
   labels:
     component: "{{ .Release.Name }}-{{ .Values.redis.name }}"
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
@@ -11,14 +11,14 @@ spec:
   replicas: {{ .Values.redis.replicas }}
   selector:
     matchLabels:
-      app: {{ template "redis-fullname" . }}
+      app: {{ .Values.redis.name }}
   template:
     metadata:
       labels:
-        app: {{ template "redis-fullname" . }}
+        app: {{ .Values.redis.name }}
     spec:
       containers:
-      - image: "{{ .Values.redis.imageName }}:{{ .Values.redis.imageTag}}"
+      - image: "{{ .Values.redis.image.name }}:{{ .Values.redis.image.tag}}"
         name: redis
         livenessProbe:
           exec: 
@@ -47,11 +47,12 @@ spec:
       volumes:
         - name: redis-cm
           configMap:
-            name: "{{ template "redis-fullname" . }}-cm"
+            name: "{{ .Values.redis.name }}-cm"
+            defaultMode: 0755
         - name: redis-data
   {{- if .Values.redis.volumes.enabled }}
           persistentVolumeClaim: 
-            claimName: "{{ template "redis-fullname" . }}-pvc" 
+            claimName: "{{ .Values.redis.name }}-pvc" 
   {{- else }}
           emptyDir: {} 
   {{- end }}
