@@ -1,0 +1,17 @@
+{{- if .Values.vote.hpa.enabled }}
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ template "vote-fullname" . }}
+  labels:
+    app: {{ template "vote-fullname" . }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ template "vote-fullname" . }}
+  minReplicas: {{ .Values.vote.hpa.minReplicas }}
+  maxReplicas: {{ .Values.vote.hpa.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.vote.hpa.targetCPUUtilizationPercentage }}
+{{- end }} 
+

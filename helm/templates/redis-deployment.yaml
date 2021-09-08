@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "redis-fullname" . }}
+  labels:
+    component: "{{ .Release.Name }}-{{ .Values.redis.name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "redis-fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "redis-fullname" . }}
+    spec:
+      containers:
+      - image: "{{ .Values.redis.imageName }}:{{ .Values.redis.imageTag}}"
+        name: redis
+        livenessProbe:
+          exec: 
+            command:
+            - /bin/sh
+            - -c
+            - {{ .Values.redis.healthcheck.command }}
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          exec: 
+            command:
+            - /bin/sh
+            - -c
+            - {{ .Values.redis.healthcheck.command }}
+          initialDelaySeconds: 10
+          periodSeconds: 15
+        ports:
+        - containerPort: {{ .Values.redis.containerPort }}
+          name: redis
+        volumeMounts:
+        - mountPath: /data
+          name: redis-data
+        - mountPath: /healthcheck/ 
+          name: redis-cm 
+      volumes:
+        - name: redis-cm
+          configMap:
+            name: "{{ template "redis-fullname" . }}-cm"
+        - name: redis-data
+  {{- if .Values.redis.volumes.enabled }}
+          persistentVolumeClaim: 
+            claimName: "{{ template "redis-fullname" . }}-pvc" 
+  {{- else }}
+          emptyDir: {} 
+  {{- end }}

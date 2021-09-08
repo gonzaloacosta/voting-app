@@ -1,0 +1,9 @@
+apiVersion: v1
+data:
+  redis.sh: "#!/bin/sh\nset -eo pipefail\n\nhost=\"$(hostname -i || echo '127.0.0.1')\"\n\nif
+    ping=\"$(redis-cli -h \"$host\" ping)\" && [ \"$ping\" = 'PONG' ]; then\n\texit
+    0\nfi\n\nexit 1\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: "{{ template "redis-fullname" . }}-cm" 

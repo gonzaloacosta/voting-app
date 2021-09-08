@@ -1,0 +1,13 @@
+{{- if .Values.db.volumes.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ template "db-fullname" . }}-pvc"
+spec:
+  accessModes:
+    - {{ .Values.db.volumes.accessModes }}
+  storageClassName: {{ .Values.db.volumes.storageClassName }} 
+  resources:
+    requests:
+      storage: {{ .Values.db.volumes.size }}
+{{- end }}

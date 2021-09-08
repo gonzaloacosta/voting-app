@@ -1,0 +1,13 @@
+{{- if .Values.redis.volumes.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: "{{ template "redis-fullname" . }}-pvc"
+spec:
+  accessModes:
+    - {{ .Values.redis.volumes.accessModes }}
+  storageClassName: {{ .Values.redis.volumes.storageClassName }} 
+  resources:
+    requests:
+      storage: {{ .Values.redis.volumes.size }}
+{{- end }}

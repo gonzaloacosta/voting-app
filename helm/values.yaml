@@ -1,0 +1,77 @@
+project:
+  name: voting-app
+
+result:
+  name: result
+  imageName: gonzaloacosta/voting-app-result
+  imageTag: latest
+  replicas: 1
+  containerPort: 80
+  servicePort: 5001
+  serviceType: ClusterIP
+  ingressHost: result.192.168.64.6.nip.io
+  hpa:
+    enabled: true
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 60
+
+vote:
+  name: vote
+  imageName: gonzaloacosta/voting-app-vote
+  imageTag: latest
+  replicas: 1
+  containerPort: 80
+  servicePort: 5000
+  serviceType: ClusterIP
+  ingressHost: vote.192.168.64.6.nip.io
+  hpa:
+    enabled: true 
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 60
+
+worker:
+  name: worker
+  imageName: gonzaloacosta/voting-app-worker
+  imageTag: latest
+  replicas: 1
+  hpa:
+    enabled: true 
+    minReplicas: 1
+    maxReplicas: 4
+    targetCPUUtilizationPercentage: 60
+
+db:
+  name: postgres
+  imageName: postgres
+  imageTag: 9.4 
+  postgresUser: postgres
+  postgresPassword: postgres
+  volumes:
+    enabled: true
+    size: 1G
+    accessModes: ReadWriteOnce 
+  containerPort: 5432
+  servicePort: 5432
+  serviceType: ClusterIP
+  healthcheck:
+    command: /healthchecks/postgres.sh
+
+redis:
+  name: redis
+  imageName: redis
+  imageTag: 5.0-alpine3.10 
+  usePassword: false
+  volumes:
+    enabled: true
+    size: 1G
+    accessModes: ReadWriteOnce 
+  containerPort: 6379
+  servicePort: 6379
+  serviceType: ClusterIP
+  healthcheck:
+    command: /healthchecks/redis.sh
+
+#registry:
+#  pullSecret: dockerhub

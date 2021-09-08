@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  postgres.sh: "#!/bin/bash\nset -eo pipefail\n\nhost=\"$(hostname -i || echo '127.0.0.1')\"\nuser=\"${POSTGRES_USER:-postgres}\"\ndb=\"${POSTGRES_DB:-$POSTGRES_USER}\"\nexport
+    PGPASSWORD=\"${POSTGRES_PASSWORD:-}\"\n\nargs=(\n\t# force postgres to not use
+    the local unix socket (test \"external\" connectibility)\n\t--host \"$host\"\n\t--username
+    \"$user\"\n\t--dbname \"$db\"\n\t--quiet --no-align --tuples-only\n)\n\nif select=\"$(echo
+    'SELECT 1' | psql \"${args[@]}\")\" && [ \"$select\" = '1' ]; then\n\texit 0\nfi\n\nexit
+    1\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: "{{ template "db-fullname" . }}-cm"

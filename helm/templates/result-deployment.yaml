@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "result-fullname" . }}
+  labels:
+    component: "{{ .Release.Name }}-{{ .Values.result.name }}"
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    heritage: {{ .Release.Service | quote }}
+    release: {{ .Release.Name | quote }}
+spec:
+  replicas: {{ .Values.result.replicas }}
+  selector:
+    matchLabels:
+      app: {{ template "result-fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "result-fullname" . }}
+    spec:
+      containers:
+      - image: "{{ .Values.result.imageName }}:{{ .Values.result.imageTag }}"
+        name: result
+        ports:
+        - containerPort: {{ .Values.result.containerPort }}
+          name: result
