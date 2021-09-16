@@ -1,16 +1,16 @@
 project:
-  name: voting-app
+  name: voting-app-develop
 
 result:
   name: result
   image:
     name: gonzaloacosta/voting-app-result
-    tag: latest
+    tag: develop 
   replicas: 1
   containerPort: 80
   servicePort: 5001
   serviceType: ClusterIP
-  ingressHost: result.192.168.64.6.nip.io
+  ingressHost: result.develop.192.168.64.6.nip.io
   hpa:
     enabled: true
     minReplicas: 1
@@ -21,12 +21,12 @@ vote:
   name: vote
   image:
     name: gonzaloacosta/voting-app-vote
-    tag: latest
+    tag: develop
   replicas: 1
   containerPort: 80
   servicePort: 5000
   serviceType: ClusterIP
-  ingressHost: vote.192.168.64.6.nip.io
+  ingressHost: vote.develop.192.168.64.6.nip.io
   hpa:
     enabled: true 
     minReplicas: 1
@@ -37,7 +37,7 @@ worker:
   name: worker
   image:
     name: gonzaloacosta/voting-app-worker
-    tag: latest
+    tag: develop 
   replicas: 1
   hpa:
     enabled: true 
