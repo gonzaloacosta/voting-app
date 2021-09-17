@@ -37,7 +37,7 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 15
         ports:
-        - container.port: {{ .Values.redis.container.port }}
+        - containerPort: {{ .Values.redis.container.port }}
           name: redis
         volumeMounts:
         - mountPath: /data

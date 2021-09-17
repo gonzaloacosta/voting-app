@@ -42,7 +42,7 @@ spec:
         - name: POSTGRES_PASSWORD
           value: {{ .Values.postgres.db.password }}
         ports:
-        - container.port: {{ .Values.postgres.container.port }}
+        - containerPort: {{ .Values.postgres.container.port }}
           name: postgres
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
