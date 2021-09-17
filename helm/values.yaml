@@ -7,10 +7,13 @@ result:
     name: gonzaloacosta/voting-app-result
     tag: develop 
   replicas: 1
-  containerPort: 80
-  servicePort: 5001
-  serviceType: ClusterIP
-  ingressHost: result.develop.192.168.64.6.nip.io
+  container:
+    port: 80
+  service:
+    port: 5001
+    type: ClusterIP
+  ingress:
+    host: result.192.168.64.6.nip.io
   hpa:
     enabled: true
     minReplicas: 1
@@ -23,10 +26,13 @@ vote:
     name: gonzaloacosta/voting-app-vote
     tag: develop
   replicas: 1
-  containerPort: 80
-  servicePort: 5000
-  serviceType: ClusterIP
-  ingressHost: vote.develop.192.168.64.6.nip.io
+  container:
+    port: 80
+  service:
+    port: 5000
+    type: ClusterIP
+  ingress:
+    host: vote.192.168.64.6.nip.io
   hpa:
     enabled: true 
     minReplicas: 1
@@ -50,15 +56,18 @@ postgres:
   image:
     name: postgres
     tag: 9.4 
-  dbUser: postgres
-  dbPassword: postgres
+  db:
+    user: postgres
+    password: postgres
   volumes:
     enabled: false
     size: 1G
-    accessModes: ReadWriteOnce 
-  containerPort: 5432
-  servicePort: 5432
-  serviceType: ClusterIP
+    accessModes: ReadWriteOnce
+  container:
+    port: 5432
+  service:
+    port: 5432
+    type: ClusterIP
   healthcheck:
     command: /healthcheck/postgres.sh
 
@@ -71,10 +80,12 @@ redis:
   volumes:
     enabled: false
     size: 1G
-    accessModes: ReadWriteOnce 
-  containerPort: 6379
-  servicePort: 6379
-  serviceType: ClusterIP
+    accessModes: ReadWriteOnce
+  container:
+    port: 6379
+  service:
+    port: 6379
+    type: ClusterIP
   healthcheck:
     command: /healthcheck/redis.sh
 

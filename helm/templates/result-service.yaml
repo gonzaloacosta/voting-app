@@ -11,7 +11,7 @@ spec:
   type: {{ .Values.result.serviceType }}
   ports:
   - name: "result-service"
-    port: {{ .Values.result.servicePort }}
-    targetPort: {{ .Values.result.containerPort }}
+    port: {{ .Values.result.service.port }}
+    targetPort: {{ .Values.result.container.port }}
   selector:
     app: {{ .Values.result.name }}

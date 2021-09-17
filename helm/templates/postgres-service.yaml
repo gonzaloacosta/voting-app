@@ -11,7 +11,7 @@ spec:
   type: {{ .Values.postgres.serviceType }}
   ports:
   - name: "db-service"
-    port: {{ .Values.postgres.servicePort }}
-    targetPort: {{ .Values.postgres.containerPort }}
+    port: {{ .Values.postgres.service.port }}
+    targetPort: {{ .Values.postgres.container.port }}
   selector:
     app: {{ .Values.postgres.name }}

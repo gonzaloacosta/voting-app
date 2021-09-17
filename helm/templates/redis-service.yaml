@@ -11,7 +11,7 @@ spec:
   type:  {{ .Values.redis.serviceType }}
   ports:
   - name: "redis-service"
-    port: {{ .Values.redis.servicePort }}
-    targetPort: {{ .Values.redis.containerPort }}
+    port: {{ .Values.redis.service.port }}
+    targetPort: {{ .Values.redis.container.port }}
   selector:
     app: {{ .Values.redis.name }}

@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: {{ .Values.vote.ingressHost }}
+  - host: {{ .Values.vote.ingress.host }}
     http:
       paths:
       - path: /
@@ -16,4 +16,4 @@ spec:
           service:
             name: vote 
             port: 
-              number: {{ .Values.vote.servicePort }}
+              number: {{ .Values.vote.service.port }}

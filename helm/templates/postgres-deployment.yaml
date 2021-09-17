@@ -38,11 +38,11 @@ spec:
           periodSeconds: 15
         env:
         - name: POSTGRES_USER
-          value: {{ .Values.postgres.dbUser }}
+          value: {{ .Values.postgres.db.user }}
         - name: POSTGRES_PASSWORD
-          value: {{ .Values.postgres.dbPassword }}
+          value: {{ .Values.postgres.db.password }}
         ports:
-        - containerPort: {{ .Values.postgres.containerPort }}
+        - container.port: {{ .Values.postgres.container.port }}
           name: postgres
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
