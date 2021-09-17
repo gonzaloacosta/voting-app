@@ -6,7 +6,7 @@ services:
   vote:
     build: ./vote
     # use python rather than gunicorn for local dev
-    image: gonzaloacosta/voting-app-vote:develop
+    image: gonzaloacosta/voting-app-vote:pr-2
     command: python app.py
     depends_on:
       redis:
@@ -22,7 +22,7 @@ services:
   result:
     build: ./result
     # use nodemon rather than node for local dev
-    image: gonzaloacosta/voting-app-result:develop
+    image: gonzaloacosta/voting-app-result:pr-2
     command: nodemon server.js
     depends_on:
       db:
@@ -40,7 +40,7 @@ services:
     build:
       context: ./worker
       dockerfile: Dockerfile
-    image: gonzaloacosta/voting-app-worker:develop
+    image: gonzaloacosta/voting-app-worker:pr-2
     depends_on:
       redis:
         condition: service_healthy 
