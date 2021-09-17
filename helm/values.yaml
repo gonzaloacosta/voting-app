@@ -5,7 +5,7 @@ result:
   name: result
   image:
     name: gonzaloacosta/voting-app-result
-    tag: develop 
+    tag: pr-1 
   replicas: 1
   container:
     port: 80
@@ -24,7 +24,7 @@ vote:
   name: vote
   image:
     name: gonzaloacosta/voting-app-vote
-    tag: develop
+    tag: pr-1
   replicas: 1
   container:
     port: 80
@@ -43,7 +43,7 @@ worker:
   name: worker
   image:
     name: gonzaloacosta/voting-app-worker
-    tag: develop 
+    tag: pr-1 
   replicas: 1
   hpa:
     enabled: true 
