@@ -14,4 +14,3 @@ spec:
   maxReplicas: {{ .Values.vote.hpa.maxReplicas }}
   targetCPUUtilizationPercentage: {{ .Values.vote.hpa.targetCPUUtilizationPercentage }}
 {{- end }} 
-
